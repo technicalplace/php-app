@@ -1,5 +1,6 @@
 <?php
-// DB接続に関する処理を記述するファイル
+// DB接続に関する処理を記述するファイルでデータを操作する機能をまとめる
+
 // 別のファイルに記述した変数や関数などを読み込むときに記述する
 require_once('config.php');
 
@@ -15,7 +16,7 @@ function connectPdo()
 }
 
 /** 
- * @desc データの登録処理
+ * @desc データの新規作成処理
  * :todoTextはプレースホルダーprepare()でSQL文を実行する準備をした後、bindValue()でこのプレースホルダに値をセットしています
  */
 function createTodoData($todoText)
@@ -23,16 +24,20 @@ function createTodoData($todoText)
     $dbh = connectPdo();
     $sql = 'insert into todos (content) values (:todoText)';
     $stmt = $dbh->prepare($sql);
+    var_dump($dbh);
     $stmt->bindValue(':todoText', $todoText, PDO::PARAM_STR);
     $stmt->execute();
 }
 
-/** データの取得処理 */
+/** データの全件取得処理 */
 function getAllRecords()
 {
     $dbh = connectPdo();
     $sql = 'select * from todos where deleted_at IS NULL';
-    return $dbh->query($sql)->fetchAll();
+    // プレースホルダを指定せずに、SQL ステートメントを準備して実行する場合はqueryメソッド
+    $queryResult = $dbh->query($sql);
+    var_dump($queryResult);
+    return $queryResult->fetchAll();
 }
 
 /** データの更新処理 */
