@@ -1,3 +1,12 @@
+<?php
+require_once('./functions.php');
+header('Set-Cookie: userId=123');
+setToken();
+?>
+<?php if (!empty($_SESSION['err'])) : ?>
+  <p><?= $_SESSION['err']; ?></p>
+<?php endif; ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -8,14 +17,6 @@
 </head>
 
 <body>
-  <?php
-  require_once('./functions.php');
-  header('Set-Cookie: userId=123');
-  setToken();
-  ?>
-  <?php if (!empty($_SESSION['err'])) : ?>
-    <p><?= $_SESSION['err']; ?></p>
-  <?php endif; ?>
   <div>
     <a href="./new.php">
       <p>新規作成</p>
