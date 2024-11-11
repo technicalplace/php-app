@@ -1,10 +1,12 @@
 <?php
+// 編集画面を表示
 require_once('./functions.php');
 setToken();
 $todo = getSelectedTodo($_GET['id']);
 ?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8">
@@ -17,7 +19,6 @@ $todo = getSelectedTodo($_GET['id']);
     <?php endif; ?>
     <form action="./store.php" method="post">
         <input type="hidden" name="token" value="<?= $_SESSION['token']; ?>">
-        <input type="hidden" name="token" value="">
         <input type="hidden" name="id" value="<?= e($_GET['id']); ?>">
         <input type="text" name="content" value="<?= e($todo); ?>">
         <input type="submit" value="更新">
