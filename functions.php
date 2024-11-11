@@ -1,9 +1,10 @@
 <?php
 // DBを操作する処理を呼び出す関数等をまとめたファイル
-require_once('conection.php');
+require_once('connection.php');
 // PHPに用意されているsession_start()を使うことでセッションを使うことができる
 session_start();
 
+// DBからレコード全件取得
 function getTodoList()
 {
     return getAllRecords();
@@ -57,6 +58,7 @@ function redirectToPostedPage()
 function savePostedData($post)
 {
     checkToken($post['token']);
+    validate($post);
     $path = getRefererPath();
     switch ($path) {
         case '/new.php':
@@ -75,8 +77,16 @@ function savePostedData($post)
 
 function getRefererPath()
 {
-    $urlArray = parse_url(($_SERVER['HTTP_REFERER']));
+    $urlArray = parse_url($_SERVER['HTTP_REFERER']);
     return $urlArray['path'];
+}
+
+function validate($post)
+{
+    if (isset($post['content']) && $post['content'] === '') {
+        $_SESSION['err'] = '入力がありません';
+        redirectToPostedPage();
+    }
 }
 
 // エスケープ処理
